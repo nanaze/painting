@@ -9,6 +9,13 @@ from PIL import Image, ImageDraw
 import sys
 import urllib.request
 
+def _CropImage(img):
+  width, height = img.size
+  edge = 630
+  top_left = (280, 0)
+  
+  return img.crop(top_left + (top_left[0] + edge, top_left[1] + edge))
+
 def _DrawGrid(img):
   draw = ImageDraw.Draw(img)
 
@@ -27,8 +34,9 @@ def _DrawGrid(img):
 
 def main():
   with Image.open(sys.stdin.buffer) as img:
+    img = _CropImage(img)
     _DrawGrid(img)
-    img.save(sys.stdout.buffer, "PNG")
+    img.save(sys.stdout.buffer, "JPEG")
       
 if __name__ == '__main__':
   main()
